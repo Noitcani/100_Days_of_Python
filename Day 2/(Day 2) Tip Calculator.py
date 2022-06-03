@@ -2,7 +2,7 @@
 print("Welcome to the tip calculator!")
 
 # Ask for total bill
-total_bill = float(input("What was the total bill?\n"))
+total_bill = float(input("What was the total bill?\n$"))
 
 #Ask for tip
 tip_valid = False
@@ -15,7 +15,7 @@ while not tip_valid:
 pax = int(input("How many people to split the bill?\n"))
 
 #Calculate share
-share = round((total_bill*(1+(tip/100)))/pax,2)
+share = "{:.2f}".format((total_bill*(1+(tip/100)))/pax,2)
 
 #Output share
 print(f"Each person should pay: ${share}")
