@@ -87,7 +87,7 @@ while game_on:
 		print(avail_choices)
 		
 		# Display no. of lives
-		print(f"\nYou have {lives} left.")
+		print(f"\nYou have {lives} lives left.")
 		print(life_stage[lives])
 
 		# Ask for user input for letter
@@ -117,21 +117,28 @@ while game_on:
 
 		# Check if word complete (no more blanks)
 		if "_" not in guess_progress:
-			print("Congrats! You have guessed the Word in time!")
+			clearConsole()
+			print(f"Congrats! The word was {chosen_word}. You have guessed it in time!")
 			round_on = False
 			break
 
 		# Check if dead (lives = 0). If dead, print game over
 		elif lives == 0:
+			clearConsole()
 			print(life_stage[lives])
 			print(f"You failed. The answer was {chosen_word}. Man hung. Game Over!")
 			round_on = False
 			break
 
+		else:
+			clearConsole()
+
 	# If game over, ask Play Again?
 	play_again = play_again_check()
-	if play_again == ["N","n"]:
+	if play_again in ["N","n"]:
 		game_on = False
+		exit()
+	
 	else:
 		game_on = True
 		round_on = True
