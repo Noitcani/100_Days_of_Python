@@ -30,7 +30,7 @@ while game_is_on:
     time.sleep(0.1)
 
     for seg in my_snake.snake_body[1:]:
-        if (my_snake.head.distance(seg) < 10):
+        if my_snake.head.distance(seg) < 10:
             game_is_on = False
             my_scoreboard.game_over()
 
@@ -40,7 +40,8 @@ while game_is_on:
         my_food.refresh()
         my_scoreboard.refresh()
 
-    if (-280 <= my_snake.head.xcor() >= 280) or (-280 <= my_snake.head.ycor() >= 280):
+    if -280 >= my_snake.head.xcor() or my_snake.head.xcor() >= 280 \
+            or -280 >= my_snake.head.ycor() or my_snake.head.ycor() >= 280:
         game_is_on = False
         my_scoreboard.game_over()
 
