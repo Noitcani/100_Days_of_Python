@@ -35,10 +35,7 @@ while num_guessed_states < 50:
     elif answer_state == "Exit":
         break
 
-states_to_learn = []
-for state in states_list:
-    if state not in guessed_states:
-        states_to_learn.append(state)
+states_to_learn = [state for state in states_list if state not in guessed_states]
 print(states_to_learn)
 
 df = pandas.DataFrame(states_to_learn)
