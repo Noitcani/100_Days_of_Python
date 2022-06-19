@@ -31,9 +31,9 @@ def reset():
 
 def start_timer():
     global reps, work_counter
-    work_sec = WORK_MIN*60
-    long_break = LONG_BREAK_MIN*60
-    short_break = SHORT_BREAK_MIN*60
+    work_sec = WORK_MIN * 60
+    long_break = LONG_BREAK_MIN * 60
+    short_break = SHORT_BREAK_MIN * 60
 
     reps += 1
 
@@ -80,6 +80,8 @@ def count_down(time_amount):
     if time_amount > 0:
         timer = window.after(1000, count_down, time_amount - 1)
     else:
+        window.attributes("-topmost", 1)
+        window.deiconify()
         start_timer()
 
 # ---------------------------- UI SETUP ------------------------------- #
