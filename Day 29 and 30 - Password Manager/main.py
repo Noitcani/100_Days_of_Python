@@ -1,6 +1,8 @@
+from email import message
 from tkinter import *
 from tkinter import messagebox
 import random
+import json
 
 
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
@@ -24,6 +26,15 @@ def pw_gen():
 
 # ---------------------------- SAVE PASSWORD ------------------------------- #
 def add_pw():
+    
+    new_data = {
+        website_input.get(): {
+            "email": email_input.get(),
+            "password": password_input.get(),
+        }
+
+    }
+
     if website_input.get() == "" or email_input.get() == "" or password_input.get() == "":
         messagebox.showwarning(title="Missing Info",
                                message="Website, Username or Password cannot be empty")
@@ -35,13 +46,47 @@ def add_pw():
                                                         f"Password: {password_input.get()}")
 
         if confirm_dialog:
-            with open("pw_data.txt", mode="a") as f:
-                f.write(f"\n{website_input.get()}  |  {email_input.get()}  |  {password_input.get()}")
+            try:
+                with open("pw_data.json", mode="r") as f:
+                    pass
+            
+            except FileNotFoundError:
+                with open("pw_data.json", mode="w") as f:
+                    json.dump(new_data, f, indent=4)
+            
+            else:
+                with open("pw_data.json", mode="r") as f:
+                    existing_data = json.load(f)
+                    existing_data.update(new_data)
+                    
+                with open("pw_data.json", mode="w") as f:
+                    json.dump(existing_data, f, indent=4)
+
+            finally:   
                 website_input.delete(0, END)
                 email_input.delete(0, END)
                 email_input.insert(END, "your_email@email.com")
                 password_input.delete(0, END)
 
+
+# ---------------------------- SEARCH PASSWORD ------------------------------- #
+def search_pw():
+    try:
+        with open("pw_data.json", mode="r") as f:
+            existing_data = json.load(f)
+    except FileNotFoundError:
+        messagebox.showinfo(title="No password file created", message="No passwords stored yet.")
+    else:
+        try:
+            found_user = existing_data[website_input.get()]["email"]
+            found_pw = existing_data[website_input.get()]["password"]
+            messagebox.showinfo(title="Password Found", message=f"\
+Record found:\n\n \
+Email/User: {found_user}\n \
+Password: {found_pw}")
+
+        except KeyError:
+            messagebox.showinfo(title="No such website", message=f"No stored password for {website_input.get()}.")
 
 # ---------------------------- UI SETUP ------------------------------- #
 window = Tk()
@@ -59,8 +104,8 @@ website_label = Label(text="Website:")
 website_label.grid(column=0, row=1)
 
 website_input = Entry()
-website_input.config(width=55)
-website_input.grid(sticky="w", column=1, row=1, columnspan=2)
+website_input.config(width=35)
+website_input.grid(sticky="w", column=1, row=1)
 website_input.focus()
 
 email_label = Label(text="Email/Username:")
@@ -84,5 +129,8 @@ generate_pw_button.grid(sticky="w", column=2, row=3, padx=10)
 add_button = Button(text="Add", command=add_pw)
 add_button.config(width=46)
 add_button.grid(sticky="w", column=1, row=4, columnspan=2)
+
+search_button = Button(text="Search", width=14, command=search_pw)
+search_button.grid(sticky="w", column=2, row=1, padx=10)
 
 window.mainloop()
