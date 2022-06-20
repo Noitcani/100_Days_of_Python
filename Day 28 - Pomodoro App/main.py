@@ -80,7 +80,6 @@ def count_down(time_amount):
     if time_amount > 0:
         timer = window.after(1000, count_down, time_amount - 1)
     else:
-        window.attributes("-topmost", 1)
         window.deiconify()
         start_timer()
 
