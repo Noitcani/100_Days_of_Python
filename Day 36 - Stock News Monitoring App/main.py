@@ -51,8 +51,6 @@ top_3_news = {
     }
     for count, article in enumerate(article_data[:3])}
 
-print(top_3_news)
-
 tsla_price_change = (yesterday_price - day_before_yesterday_price) / day_before_yesterday_price
 
 if tsla_price_change >= 0.05:
