@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from requests_html import HTMLSession
 import json
 
@@ -25,14 +25,32 @@ def serve_aboutpage():
     return render_template("about.html")
 
 
-@app.route("/contact")
+@app.route("/contact", methods=["POST", "GET"])
 def serve_contactpage():
-    return render_template("contact.html")
+    if request.method == "POST":
+        email_content = {
+            "user_name": request.form['name'],
+            "user_email": request.form['email'],
+            "user_phone": request.form['phonenumber'],
+            "user_message": request.form['message'],
+        }
+        successful_message = 'Successfully Submitted Your Message!'
+        with open("email_to_send.json", "w") as f:
+            json.dump(email_content, f, indent=4)
+
+        return render_template("contact.html", successful_message=successful_message)
+
+    elif request.method == "GET":
+        return render_template("contact.html", successful_message="")
 
 
 @app.route("/post/<int:post_id>")
 def serve_post(post_id):
     return render_template("post.html", blogdata=blogdata, post_id=post_id)
+
+
+# @app.route("/form-entry", methods=["POST"])
+# def form_entry():
 
 
 if __name__ == "__main__":

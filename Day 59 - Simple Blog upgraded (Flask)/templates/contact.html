@@ -11,8 +11,13 @@
         <div class="row gx-4 gx-lg-5 justify-content-center">
           <div class="col-md-10 col-lg-8 col-xl-7">
             <div class="page-heading">
+              {% if successful_message == "": %}
               <h1>Contact Me</h1>
               <span class="subheading">Have questions? I have answers.</span>
+              {% else: %}
+              <h1>{{successful_message}}</h1>
+              <span class="subheading">Thank you for your submission</span>
+              {% endif %}
             </div>
           </div>
         </div>
@@ -35,13 +40,19 @@
               <!-- To make this form functional, sign up at-->
               <!-- https://startbootstrap.com/solution/contact-forms-->
               <!-- to get an API token!-->
-              <form id="contactForm" data-sb-form-api-token="API_TOKEN">
+              <form
+                id="contactForm"
+                data-sb-form-api-token="API_TOKEN"
+                action="{{url_for('serve_contactpage')}}"
+                method="post"
+              >
                 <div class="form-floating">
                   <input
                     class="form-control"
                     id="name"
                     type="text"
                     placeholder="Enter your name..."
+                    name="name"
                     data-sb-validations="required"
                   />
                   <label for="name">Name</label>
@@ -58,6 +69,7 @@
                     id="email"
                     type="email"
                     placeholder="Enter your email..."
+                    name="email"
                     data-sb-validations="required,email"
                   />
                   <label for="email">Email address</label>
@@ -77,6 +89,7 @@
                     id="phone"
                     type="tel"
                     placeholder="Enter your phone number..."
+                    name="phonenumber"
                     data-sb-validations="required"
                   />
                   <label for="phone">Phone Number</label>
@@ -92,6 +105,7 @@
                     class="form-control"
                     id="message"
                     placeholder="Enter your message here..."
+                    name="message"
                     style="height: 12rem"
                     data-sb-validations="required"
                   ></textarea>
@@ -129,7 +143,7 @@
                 </div>
                 <!-- Submit Button-->
                 <button
-                  class="btn btn-primary text-uppercase disabled"
+                  class="btn btn-primary text-uppercase"
                   id="submitButton"
                   type="submit"
                 >
