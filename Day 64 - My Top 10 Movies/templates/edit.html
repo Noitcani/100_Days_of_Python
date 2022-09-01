@@ -1,0 +1,41 @@
+{% extends 'base.html' %} {% import "bootstrap/form.html" as wtf %} {% block
+styles %} {{ super() }}
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,700"
+/>
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css?family=Poppins:300,400,700"
+/>
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/styles.css') }}"
+/>
+{% endblock %} {% block title %}Edit Movies{% endblock %} {% block content %} {%
+for movie in all_movies: %} {% if movie.id == movie_id: %}
+<div class="content">
+  <h1 class="heading">{{ movie.title }}</h1>
+  <p class="description">Edit Movie Rating</p>
+
+  <div class="container text-center d-grid gap-3">
+    <form
+      method="POST"
+      action="{{ url_for('edit', movie_id=movie.id) }}"
+      novalidate
+    >
+      {{ form.csrf_token }}
+      <div class="row justify-content-md-center">
+        <div class="col-3">{{ wtf.render_field(form.rating_field) }}</div>
+      </div>
+      <div class="row justify-content-md-center">
+        <div class="col-3">{{ wtf.render_field(form.review_field) }}</div>
+      </div>
+      <div class="row justify-content-md-center">
+        <div class="col-3">{{ wtf.render_field(form.submit_field) }}</div>
+      </div>
+    </form>
+  </div>
+</div>
+
+{% endif %}{% endfor %} {% endblock %}

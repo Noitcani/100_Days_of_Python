@@ -1,0 +1,31 @@
+{% import "bootstrap/form.html" as wtf %} {% extends 'base.html' %} {% block
+styles %} {{ super() }}
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,700"
+/>
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css?family=Poppins:300,400,700"
+/>
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/styles.css') }}"
+/>
+{% endblock %} {% block title %}Add Movie{% endblock %} {% block content %}
+<div class="content">
+  <h1 class="heading">Add a Movie</h1>
+
+  <div class="container text-center d-grid gap-3">
+    <form method="POST" action="{{ url_for('add') }}" novalidate>
+      {{ form.csrf_token }}
+      <div class="row justify-content-md-center">
+        <div class="col-3">{{ wtf.render_field(form.new_movie_field) }}</div>
+      </div>
+      <div class="row justify-content-md-center" style="margin-top: 20px">
+        <div class="col-3">{{ wtf.render_field(form.submit_field) }}</div>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
